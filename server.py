@@ -103,7 +103,7 @@ def update(entity):
         myWorld.update(entity, key, value)
 
     # Return the updated entity and the HTTP status code
-    return myWorld.get(entity), 200
+    return myWorld.get(entity)
 
 
 @app.route("/world", methods=['POST','GET'])    
