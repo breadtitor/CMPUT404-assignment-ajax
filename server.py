@@ -22,7 +22,8 @@
 
 
 import flask
-from flask import Flask, request
+from flask import Flask, request,redirect, url_for
+
 import json
 app = Flask(__name__)
 app.debug = True
@@ -74,27 +75,49 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return None
+    return redirect(url_for('static', filename='index.html'))
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
-    '''update the entities via this interface'''
-    return None
+    """
+    Update the given entity in the myWorld object based on the data in the HTTP request.
+
+    Args:
+        entity: The entity to update.
+
+    Returns:
+        A tuple containing the updated entity and the HTTP status code.
+    """
+    # Check if the request data is in JSON format
+    if request.is_json:
+        content = request.get_json()
+    else:
+        # If the request data is not in JSON format, assume it's raw data and decode it using JSON
+        data = request.get_data()
+        content = json.loads(data)
+
+    # Loop through the data in the request and update the corresponding attributes of the entity
+    for key, value in content.items():
+        myWorld.update(entity, key, value)
+
+    # Return the updated entity and the HTTP status code
+    return myWorld.get(entity), 200
+
 
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return None
+    return myWorld.space, 200, {'ContentType':'application/json'}
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return None
+    return myWorld.get(entity), 200, {'ContentType':'application/json'}
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return None
+    return myWorld.space, 200, {'ContentType':'application/json'}
 
 if __name__ == "__main__":
     app.run()
