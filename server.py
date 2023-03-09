@@ -24,7 +24,7 @@
 import flask
 # Import the Flask class and request, redirect, and url_for functions from the flask module
 
-from flask import Flask, request,redirect, url_for
+from flask import Flask, request,redirect
 
 import json
 app = Flask(__name__)
