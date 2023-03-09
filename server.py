@@ -22,6 +22,8 @@
 
 
 import flask
+# Import the Flask class and request, redirect, and url_for functions from the flask module
+
 from flask import Flask, request,redirect, url_for
 
 import json
@@ -75,7 +77,7 @@ def flask_post_json():
 @app.route("/")
 def hello():
     '''Return something coherent here.. perhaps redirect to /static/index.html '''
-    return redirect(url_for('static', filename='index.html'))
+    return redirect("/static/index.html")
 
 @app.route("/entity/<entity>", methods=['POST','PUT'])
 def update(entity):
@@ -107,17 +109,17 @@ def update(entity):
 @app.route("/world", methods=['POST','GET'])    
 def world():
     '''you should probably return the world here'''
-    return myWorld.space, 200, {'ContentType':'application/json'}
+    return myWorld.world()
 
 @app.route("/entity/<entity>")    
 def get_entity(entity):
     '''This is the GET version of the entity interface, return a representation of the entity'''
-    return myWorld.get(entity), 200, {'ContentType':'application/json'}
+    return myWorld.get(entity)
 
 @app.route("/clear", methods=['POST','GET'])
 def clear():
     '''Clear the world out!'''
-    return myWorld.space, 200, {'ContentType':'application/json'}
+    return myWorld.world()
 
 if __name__ == "__main__":
     app.run()
