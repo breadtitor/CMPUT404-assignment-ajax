@@ -91,7 +91,6 @@ def update(entity):
         A tuple containing the updated entity and the HTTP status code.
     """
     # Check if the request data is in JSON format
-     # Check if the request data is in JSON format
     content = request.json
     if content is None:
         # If the request data is not in JSON format, assume it's raw data and decode it using JSON
